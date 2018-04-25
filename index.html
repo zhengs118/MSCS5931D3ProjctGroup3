@@ -41,16 +41,14 @@
 
   console.log("Graph dimensions are set.");
 
-  console.log("Parsing the data by year.");
-
   // range
-  var x = d3.scaleLinear().range([0, width]);
-  var y = d3.scaleLinear().range([height, 0]);
+  var x = d3.scale.inear().range([0, width]);
+  var y = d3.scale.linear().range([height, 0]);
 
   console.log("Range.");
 
   // line Def.
-  var salesLine = d3.line()
+  var salesLine = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.sales); });
 
