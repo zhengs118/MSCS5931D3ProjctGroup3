@@ -78,7 +78,7 @@
   console.log("SVG.");
 
   //Data from the csv file
-  d3.csv("vgsalesN.csv", function(error,data) {
+  d3.csv("vgsalesN2Sorted.csv", function(error,data) {
     data.forEach(function(d) {
       d.date = +d.Year;
       d.sales = d.GlobalSales;
