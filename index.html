@@ -41,9 +41,6 @@
 
   console.log("Graph dimensions are set.");
 
-  // Parsing data by year
-  var parseDate = d3.timeParse("%b %Y");
-
   console.log("Parsing the data by year.");
 
   // range
@@ -86,8 +83,7 @@
   d3.csv("vgsalesN.csv", function(error,data) {
     data.forEach(function(d) {
       d.date = +d.Year;
-      //d.Year = parseDate(d.Year);
-      d.sales = +d.GlobalSales;
+      d.sales = d.GlobalSales;
     });
 
 
@@ -105,21 +101,21 @@
     console.log("Nesting.");
 
     // colors scale
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
 
     // Space between legends
-    legendSpace = width/dataNest.length;
+    legendSpace = 80;
 
     console.log("Setting the space between legends.");
 
-    // Looping over eyach Genre / key
+    // Looping over each Genre / key
     dataNest.forEach(function(d,i) {
 
         svg.append("path")
               .attr("class", "line")
               .style("stroke", function() { // Dynamically adding the colors
                   return d.color = color(d.key); })
-              .attr("d", salesLine(d.values));
+              .attr("d", salesLine(d));
 
         // Adding legends
         svg.append("text")
