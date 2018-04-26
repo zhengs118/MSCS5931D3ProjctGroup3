@@ -17,7 +17,7 @@
     .axis line{
       fill: none;
       stroke: gray;
-      stroke-width: 1;
+      stroke-width: 3;
       shape-rendering: crispEdge;
     }
 
@@ -36,36 +36,36 @@
 
   // graph dimensions
   var margin = {top: 30, right: 20, bottom: 70, left: 50},
-      width = 600 - margin.left - margin.right,
-      height = 300 - margin.top - margin.botom;
+      width = 1200 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
 
   console.log("Graph dimensions are set.");
 
   // range
-  var x = d3.scale.inear().range([0, width]);
-  var y = d3.scale.linear().range([height, 0]);
+  var x = d3.scale.linear().range([0, width]).clamp(true);
+  var y = d3.scale.linear().range([height, 0]).clamp(true);
 
   console.log("Range.");
 
+
+  //Axes def.
+  var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(5);
+  var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(5);
+  
   // line Def.
   var salesLine = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.sales); });
 
-  console.log("Line Def.");
-  // Axes def.
-  // var xAxis = d3.svg.axis().scale(x)
-  //
-  // var yAxis = d3.svg.axis().scale(y)
-  //     .orient("left").ticks(5);
-  // var xAxis = d3.axisBottom(x).tickFormat(function(d){ return d.x;});
-  // var yAxis = d3.axisLeft(y);
 
 
   // var salesLine = d3.svg.line()
   //     .x(function(d) { return x(d.year); })
   //     .y(function(d) {return y(d.sales); });
-
+console.log("Line Def.");
+ 
   // SVG
   var svg = d3.select("body")
       .append("svg")
@@ -78,7 +78,7 @@
   console.log("SVG.");
 
   //Data from the csv file
-  d3.csv("vgsalesN.csv", function(error,data) {
+  d3.csv("vgsalesN2Sorted.csv", function(error,data) {
     data.forEach(function(d) {
       d.date = +d.Year;
       d.sales = d.GlobalSales;
@@ -102,7 +102,7 @@
     var color = d3.scale.category20();
     
     // Space between legends
-    legendSpace = 80;
+    legendSpace = 90;
 
     console.log("Setting the space between legends.");
 
@@ -119,24 +119,35 @@
         // Adding legends
         svg.append("text")
           .attr("x", (legendSpace/2) + i * legendSpace) // spacing legends
-          .attr("y", height + (margin.bottom/2) + 5)
+          .attr("y", height + (margin.bottom/2) + 20)
           .attr("class", "legend")   //style the legends
           .style("fill", function() {
               return d.color = color(d.key); })
-          .text(d.key);
+          .on("click", function(){
+                // Checking for the line status
+                var active = d.active ? false : true,
+                newOpacity = active ? 0 : 1;
+                // Hide or show the element
+                d3.select("#tag" + d.key.replace(/\s+/g, ''))
+                    .transition().duration(100)
+                    . style("opacity", newOpacity);
+                // update elements status
+                 d.active = active; 
+                 })
+              .text(d.key);
 
     });
 
     // Add the X Axis
     svg.append("g")
-        .attr("class", "axis")
+        .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(xAxis);
 
     // Add the Y Axis
     svg.append("g")
-          .attr("class", "axis")
-          .call(d3.axisLeft(y));
+          .attr("class", "y axis")
+          .call(yAxis);
 
     console.log("Adding Xs and Ys.");
   });
