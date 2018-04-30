@@ -30,6 +30,7 @@
   </head>
 
   <body>
+  <div id="graphContainer"></div>
   <!--Loading d3 library-->
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script>
@@ -57,7 +58,8 @@
   // line Def.
   var salesLine = d3.svg.line()
     .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.sales); });
+    .y(function(d) { return y(d.sales); })
+    .interpolate("basis");
 
 
 
@@ -67,7 +69,7 @@
 console.log("Line Def.");
  
   // SVG
-  var svg = d3.select("body")
+  var svg = d3.select("#graphContainer")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -114,7 +116,8 @@ console.log("Line Def.");
               .style("stroke", function() { // Dynamically adding the colors
                   return d.color = color(d.key); })
               .attr("id", 'tag'+d.key.replace(/\s+/g, ''))
-              .attr("d", salesLine(d.values));
+              .attr("d", salesLine(d.values))
+              .style('opacity', 0);
 
         // Adding legends
         svg.append("text")
