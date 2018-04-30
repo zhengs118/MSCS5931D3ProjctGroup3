@@ -85,7 +85,7 @@ console.log("Line Def.");
     var color = d3.scale.category20();
     
     // Space between legends
-    legendSpace = 90;
+    legendSpace = 12;
 
     console.log("Setting the space between legends.");
 
@@ -102,8 +102,8 @@ console.log("Line Def.");
 
         // Adding legends
         svg.append("text")
-          .attr("x", (legendSpace/2) + i * legendSpace) // spacing legends
-          .attr("y", height + (margin.bottom/2) + 20)
+          .attr("x", width + (margin.right/2) - 10 )// spacing legends
+          .attr("y", (legendSpace/2) + i * legendSpace)
           .attr("class", "legend")   //style the legends
           .style("fill", function() {
               return d.color = color(d.key); })
