@@ -1,44 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title="index"></title>
-    <style> /* CSS*/
+<html>
+<meta charset="utf-8">
 
-    body { font: 12px Arial;}
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-    path {
-      stroke: steelblue;
-      stroke-width: 2;
-      fill: none;
-    }
+<h1>The Tale of Video-Gaming Industry</h1>
 
-    .axis path,
-    .axis line{
-      fill: none;
-      stroke: gray;
-      stroke-width: 3;
-      shape-rendering: crispEdge;
-    }
-
-    .legend {
-      font-size: 16px;
-      font-weight: bold;
-      text-anchor: middle;
-    }
-    </style>
-  </head>
-
-  <body>
+<hr class="style">
+<body>
   <div id="graphContainer"></div>
   <!--Loading d3 library-->
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script>
 
   // graph dimensions
-  var margin = {top: 30, right: 20, bottom: 70, left: 50},
-      width = 1200 - margin.left - margin.right,
+  var margin = {top: 30, right: 20, bottom: 70, left: 80},
+      width = 900 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
+      padding = 100;
 
   console.log("Graph dimensions are set.");
 
@@ -146,11 +127,29 @@ console.log("Line Def.");
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
+    
+    // X Axis lable 
+    svg.append("text")
+        .attr("transform",
+              "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
+        .style("text-anchor", "middle")
+        .style("font", "20px times")
+        .text("Date");
 
     // Add the Y Axis
     svg.append("g")
           .attr("class", "y axis")
           .call(yAxis);
+    
+    // Y Axis lable 
+    svg.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 30 - margin.left)
+          .attr("x",0 - (height / 2))
+          .attr("dy", "1em")
+          .style("font", "20px times")
+          .style("text-anchor", "middle")
+          .text("Global sales (in millions)");
 
     console.log("Adding Xs and Ys.");
   });
