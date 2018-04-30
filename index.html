@@ -61,7 +61,7 @@ console.log("Line Def.");
   console.log("SVG.");
 
   //Data from the csv file
-  d3.csv("vgsalesN2Sorted.csv", function(error,data) {
+  d3.csv("vgsalesNFV.csv", function(error,data) {
     data.forEach(function(d) {
       d.date = +d.Year;
       d.sales = d.GlobalSales;
@@ -74,9 +74,9 @@ console.log("Line Def.");
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain([0, d3.max(data, function(d) { return d.sales; })]);
 
-    // Nest (Group) the entries by Genre
+    // Nest (Group) the entries by Platform
     var dataNest = d3.nest()
-        .key(function(d) {return d.Genre;})
+        .key(function(d) {return d.Platform;})
         .entries(data);
 
     console.log("Nesting.");
