@@ -38,8 +38,8 @@
   
   // line Def.
   var salesLine = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.sales); })
+    .x(function(d) { return x(d.key); })
+    .y(function(d) { return y(d.values); })
     .interpolate("basis");
 
 
@@ -76,8 +76,11 @@ console.log("Line Def.");
 
     // Nest (Group) the entries by Platform
     var dataNest = d3.nest()
-        .key(function(d) {return d.Platform;})
+        .key(function(d) {return d.Genre;})
+        .key(function(d) { return d.Year;})
+        .rollup(function(v) { return d3.median(v, function(d) { return d.GlobalSales; }); })
         .entries(data);
+        console.log(JSON.stringify(dataNest));
 
     console.log("Nesting.");
 
