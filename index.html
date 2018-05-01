@@ -78,6 +78,7 @@ console.log("Line Def.");
     var dataNest = d3.nest()
         .key(function(d) {return d.Platform;})
         .entries(data);
+        console.log(JSON.stringify(dataNest));
 
     console.log("Nesting.");
 
